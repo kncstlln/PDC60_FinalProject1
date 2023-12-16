@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="FinalProject.StudentList2">
+
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Label Text="Interstellar" FontFamily="MontserratBold" FontSize="26" TextColor="White"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <StackLayout>
+            <SearchBar Placeholder="Search Student"
+                       BackgroundColor="LightGray"
+                       CancelButtonColor="Black"
+                       PlaceholderColor="Black"
+                       TextColor="Black"
+                       HorizontalTextAlignment="Center"
+                       FontSize="Medium"
+                       x:Name="SearchBar"
+                       TextChanged="SearchBar_TextChanged"
+                       />
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="End" Margin="0,0,5,0">
+                            <ImageButton BackgroundColor="#F3F3F1" Clicked="AddStudentPage_Clicked" Source="more.png" Grid.Column="2" Padding="9" WidthRequest="40" HorizontalOptions="EndAndExpand"/>
+                        </StackLayout>
+                </Grid>
+
+                <Label x:Name="NoResultsLabel"
+                       Text="No results found."
+                       TextColor="Red"
+                       FontSize="16"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       IsVisible="False" />
+
+                <ListView x:Name="studentFilter" RowHeight="60">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="5">
+                                    <Frame HasShadow="False" CornerRadius="10" Padding="10" BorderColor="Gray">
+                                        <Label Text="{Binding name}" FontSize="20" FontFamily="Montserrat" TextColor="Black"></Label>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="UpdateStudentPage_Clicked"/>
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
+

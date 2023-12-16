@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="FinalProject.AddStudentPage2">
+
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Label Text="Interstellar" FontFamily="MontserratBold" FontSize="26" TextColor="White"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <StackLayout>
+              <Frame Margin="20" HeightRequest="1000" HasShadow="False" BorderColor="Black" CornerRadius="10">
+                <StackLayout>
+                    <Image WidthRequest="200" HeightRequest="200" Source="profile.png"/>
+
+                        <Entry x:Name="nameEntry" Margin="0,20,0,0" Placeholder="Enter Name" Text="{Binding remarks}" />
+                    <StackLayout Orientation="Horizontal" >
+                        <Entry x:Name="sectionEntry" WidthRequest="150" Placeholder="Enter Section" Text="{Binding section}" />
+                        <Picker x:Name="levelEntry" Title="Select Year Level" WidthRequest="150">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>1</x:String>
+                                    <x:String>2</x:String>
+                                    <x:String>3</x:String>
+                                    <x:String>4</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                        
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Entry x:Name="ageEntry" WidthRequest="100" Placeholder="Enter Age" Text="{Binding year}" />
+                        <Entry x:Name="mobileNumEntry" WidthRequest="200" Placeholder="Enter Mobile Number" Keyboard="Numeric" Text="{Binding year}"/>
+
+                    </StackLayout>
+                        <Entry x:Name="emailEntry" Placeholder="Enter Email" Text="{Binding email}" />
+                    
+
+            <!--<Button Clicked="SubmitUpdateAcademicHistory" HorizontalOptions="CenterAndExpand" Text="Update"/>-->
+                    <StackLayout Margin="0,30,0,0">
+                        <Button Clicked="SubmitAddStudent" BackgroundColor="#B5F4D1" CornerRadius="20" FontFamily="MontserratBold" WidthRequest="200" HorizontalOptions="CenterAndExpand" TextColor="#5AA572" Text="Add"/>
+                        <Button Clicked="CancelAddStudent" BackgroundColor="#FFE2DB" CornerRadius="20" FontFamily="MontserratBold" WidthRequest="200" HorizontalOptions="CenterAndExpand" TextColor="#C36060" Text="Cancel"/>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
+

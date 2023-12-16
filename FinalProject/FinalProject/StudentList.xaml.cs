@@ -36,6 +36,7 @@ namespace FinalProject
         private const string retrieve = "http://192.168.100.86/PDC60_api/api_r2.php";
         private const string search = "http://192.168.100.86/PDC60_api/api-search.php";
         private ObservableCollection<Students> _studentsList;
+        private ObservableCollection<Students> _originalStudentsList;
         private HttpClient _Client = new HttpClient();
 
         public StudentList()
@@ -46,99 +47,43 @@ namespace FinalProject
 
         protected override async void OnAppearing()
         {
-
             var content = await _Client.GetStringAsync(retrieve);
-            var student = JsonConvert.DeserializeObject<List<Students>>(content);
+            var students = JsonConvert.DeserializeObject<List<Students>>(content);
 
-            _studentsList = new ObservableCollection<Students>(student);
+            _studentsList = new ObservableCollection<Students>(students);
+            _originalStudentsList = new ObservableCollection<Students>(students);
+
             studentFilter.ItemsSource = _studentsList;
             base.OnAppearing();
         }
 
-        private async void OnRefresh(object sender, EventArgs e)
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            try
-            {
-                var content = await _Client.GetStringAsync(retrieve);
-                var student = JsonConvert.DeserializeObject<List<Students>>(content);
+            if (_originalStudentsList == null)
+                return;
 
-                _studentsList = new ObservableCollection<Students>(student);
-                studentFilter.ItemsSource = _studentsList;
-                await DisplayAlert("Success", "Data refreshed successfully!", "OK");
-            }
-            catch (Exception ex)
+            // Perform the search based on the entered text
+            var searchTerm = e.NewTextValue.ToLower();
+
+            if (string.IsNullOrWhiteSpace(searchTerm))
             {
-                await DisplayAlert("Error", $"Failed to refresh data. {ex.Message}", "OK");
+                // Reset the list if the search term is empty
+                _studentsList = new ObservableCollection<Students>(_originalStudentsList);
             }
+            else
+            {
+                // Perform a case-insensitive search
+                _studentsList = new ObservableCollection<Students>(
+                    _originalStudentsList.Where(s => s.name.ToLower().Contains(searchTerm))
+                );
+            }
+
+            // Update the ListView with the filtered list
+            studentFilter.ItemsSource = _studentsList;
+
+            // Show or hide the "No results found" label based on the search results
+            NoResultsLabel.IsVisible = _studentsList.Count == 0;
         }
-
-        private async Task RefreshData()
-        {
-            try
-            {
-                var content = await _Client.GetStringAsync(retrieve);
-                var student = JsonConvert.DeserializeObject<List<Students>>(content);
-
-                _studentsList = new ObservableCollection<Students>(student);
-                studentFilter.ItemsSource = _studentsList;
-                await DisplayAlert("Success", "Data refreshed successfully!", "OK");
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Error", $"Failed to refresh data. {ex.Message}", "OK");
-            }
-
-        }
-
-        private async Task DeleteRecord(Students student)
-        {
-            var confirm = await DisplayAlert("Confirm Deletion", "Are you sure you want to delete this record?", "Yes", "No");
-
-            if (confirm)
-            {
-                try
-                {
-                    var urlDelete = "http://192.168.100.86/PDC60_api/api-delete.php";
-                    var data = JsonConvert.SerializeObject(new { id = student.id });
-                    var content = new StringContent(data, System.Text.Encoding.UTF8, "application/json");
-
-                    var request = new HttpRequestMessage
-                    {
-                        Method = HttpMethod.Delete,
-                        RequestUri = new Uri(urlDelete),
-                        Content = content
-                    };
-
-                    var response = await _Client.SendAsync(request);
-
-                    if (response.IsSuccessStatusCode)
-                    {
-                        await DisplayAlert("Success", "Record deleted successfully!", "OK");
-                        await RefreshData();                
-                        await Navigation.PopAsync();
-                    }
-                    else
-                    {
-                        await DisplayAlert("Error", "Failed to delete record. Please try again.", "OK");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
-                }
-            }
-        }
-
-        public void OnDelete(object sender, EventArgs e)
-        {
-            var mi = ((MenuItem)sender);
-            DisplayAlert("Are you sure you want to delete this?", mi.CommandParameter + " delete context action", "OK");
-        }
-
-        //private async void OnAddRecord(object sender, EventArgs e)
-        //{
-        //    await Navigation.PushAsync(new AddStudent());
-        //}
 
         private async void StudentProfile_Tapped(Object sender, EventArgs e)
         {
@@ -161,15 +106,15 @@ namespace FinalProject
         private async void UpdateStudentPage_Clicked(Object sender, EventArgs e)
         {
 
-   
-            await Navigation.PushAsync(new UpdateStudentPage());
+            var frame = sender as Frame;
+            var selectedStudent = frame?.BindingContext as Students;
+
+            if (selectedStudent != null)
+            {
+                await Navigation.PushAsync(new UpdateStudentPage(selectedStudent));
+            }
 
         }
-
-
-
-
-
 
     }
 }

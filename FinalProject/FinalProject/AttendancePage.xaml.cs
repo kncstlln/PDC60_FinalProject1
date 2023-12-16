@@ -43,6 +43,13 @@ namespace FinalProject
             LoadAttendance();
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            BindingContext = _selectedStudent;
+        }
+
+
         public Students SelectedStudent
         {
             get { return _selectedStudent; }
@@ -64,8 +71,16 @@ namespace FinalProject
                 var response = await client.GetStringAsync(ApiUrl);
                 var attendanceData = JsonConvert.DeserializeObject<List<AttendanceRecord>>(response);
 
+                if (!attendanceData.Any())
+                {
+                    await DisplayAlert("No Attendance Record", "No attendance record found!", "OK");
+                    return;
+                }
 
                 var filteredAttendanceData = attendanceData.Where(record => record.student_id == _selectedStudent.id);
+
+
+
 
                 foreach (var record in filteredAttendanceData)
                 {
@@ -78,8 +93,7 @@ namespace FinalProject
                     var tapGesture = new TapGestureRecognizer();
                     tapGesture.Tapped += async (sender, e) =>
                     {
-                        // Navigate to UpdateAttendancePage
-                        await Navigation.PushAsync(new UpdateAttendancePage());
+                        await Navigation.PushAsync(new UpdateAttendancePage(_selectedStudent, record.id));
                     };
                     frame.GestureRecognizers.Add(tapGesture);
 
@@ -136,32 +150,61 @@ namespace FinalProject
             await Navigation.PushAsync(new AddAttendancePage(_selectedStudent));
         }
 
-        private async void UpdateAttendancePage_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new UpdateAttendancePage());
-        }
-        //private async Task<bool> DeleteAttendance(int attendanceId)
-        //{
-        //    string apiUrl = "http://192.168.100.86/pdc6/attendance-delete.php";
+        private bool isRefreshing;
 
-        //    try
-        //    {
-        //        using (HttpClient client = new HttpClient())
-        //        {
-        //            var postData = new List<KeyValuePair<string, string>>
-        //    {
-        //        new KeyValuePair<string, string>("id", attendanceId.ToString())
-        //        };
-        //            var response = await client.PostAsync(apiUrl, new FormUrlEncodedContent(postData));
-        //            return response.IsSuccessStatusCode;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine($"Error: {ex.Message}");
-        //        return false;
-        //    }
-        //}
+        public bool IsRefreshing
+        {
+            get { return isRefreshing; }
+            set
+            {
+                if (isRefreshing != value)
+                {
+                    isRefreshing = value;
+                    OnPropertyChanged(nameof(IsRefreshing));
+                }
+            }
+        }
+
+        private void OnRefreshAcademicHistory(object sender, EventArgs e)
+        {
+
+            attendanceStackLayout.Children.Clear();
+            LoadAttendance();
+        }
+
+        public Command RefreshCommand
+        {
+            get
+            {
+                return new Command(async () => await RefreshData());
+            }
+        }
+
+        private async Task RefreshData()
+        {
+            IsRefreshing = true;
+
+            using (HttpClient client = new HttpClient())
+            {
+                var response = await client.GetStringAsync(ApiUrl);
+                var attendanceData = JsonConvert.DeserializeObject<List<AttendanceRecord>>(response);
+
+                var filteredAttendanceData = attendanceData.Where(record => record.student_id == _selectedStudent.id);
+
+        
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    attendanceRecord.Clear();
+                    foreach (var record in filteredAttendanceData)
+                    {
+                        attendanceRecord.Add(record);
+                    }
+                });
+            }
+
+            IsRefreshing = false;
+        }
+
     }
 }
 

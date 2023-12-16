@@ -39,7 +39,7 @@ namespace FinalProject
                 string gpa = gpaEntry.Text;
 
                 // Use the selected item from the Picker and convert to lowercase
-                string status = (statusPicker.SelectedItem as string)?.ToLowerInvariant();
+                string status = (statusPicker.SelectedItem as string);
 
                 string year = yearEntry.Text;
 

@@ -3,13 +3,18 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="FinalProject.AddAttendancePage">
+
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Label Text="Interstellar" FontFamily="MontserratBold" FontSize="26" TextColor="White"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
     <ContentPage.Content>
         <StackLayout>
             <Frame Margin="20" HeightRequest="1000" HasShadow="False" BorderColor="Black" CornerRadius="10">
                 <StackLayout>
                     <Frame BackgroundColor="#F3F3F3" HeightRequest="26">
                         <Label Text="Mark Student Attendance" HorizontalOptions="Center" FontFamily="MontserratM" VerticalOptions="CenterAndExpand" FontSize="19"></Label>
-
                     </Frame>
 
                     <Image WidthRequest="150" HeightRequest="150" Source="profile.png"/>

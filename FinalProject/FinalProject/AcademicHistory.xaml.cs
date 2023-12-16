@@ -76,17 +76,28 @@ namespace FinalProject
                         BackgroundColor = Color.FromHex("#F3F3F3")
                     };
 
+                    var tapGesture = new TapGestureRecognizer();
+   
+
+                    tapGesture.Tapped += async (sender, e) =>
+                    {
+                        await Navigation.PushAsync(new UpdateAcademicHistoryPage(_selectedStudent, record.id));
+                    };
+                    frame.GestureRecognizers.Add(tapGesture);
+
+
                     var grid = new Grid();
                     grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(100) });
                     grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(100) });
-                    grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(60) });
+                    grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(100) });
 
                     var yearLabel = new Label
                     {
                         Text = record.year.ToString(),
                         FontFamily = "MontserratM",
                         TextColor = Color.Black,
-                        FontSize = 14
+                        FontSize = 14,
+                     
                     };
 
                     var gpaLabel = new Label
@@ -94,7 +105,8 @@ namespace FinalProject
                         Text = record.gpa.ToString(),
                         FontFamily = "MontserratM",
                         TextColor = Color.Black,
-                        FontSize = 14
+                        FontSize = 14,
+
                     };
 
                     var remarksLabel = new Label
@@ -102,7 +114,8 @@ namespace FinalProject
                         Text = record.status,
                         FontFamily = "MontserratM",
                         TextColor = Color.Black,
-                        FontSize = 14
+                        FontSize = 14,
+                        
                     };
 
                     grid.Children.Add(yearLabel, 0, 0);
@@ -111,10 +124,59 @@ namespace FinalProject
 
                     frame.Content = grid;
 
+       
+
+
                     academicHistoryStackLayout.Children.Add(frame);
                 }
             }
         }
+
+        private void OnRefreshAcademicHistory(object sender, EventArgs e)
+        {
+
+            academicHistoryStackLayout.Children.Clear();
+            LoadAcademicHistory();
+        }
+
+
+        //private async Task DeleteAcademicRecord(int recordId)
+        //{
+        //    // Show a confirmation dialog
+        //    bool userConfirmed = await DisplayAlert("Confirmation", "Are you sure you want to delete this Academic Record?", "Yes", "No");
+
+        //    // Check user's response
+        //    if (userConfirmed)
+        //    {
+        //        // User confirmed, delay for 2 seconds before deleting
+        //        await Task.Delay(2000);
+
+        //        var deleteApiUrl = $"http://192.168.100.86/PDC60_api/academichistory-delete.php?id={recordId}";
+
+        //        using (var httpClient = new HttpClient())
+        //        {
+        //            var deleteResponse = await httpClient.DeleteAsync(deleteApiUrl);
+
+        //            if (deleteResponse.IsSuccessStatusCode)
+        //            {
+        //                // Record deleted successfully
+        //                await DisplayAlert("Success", "Academic Record deleted successfully.", "OK");
+        //            }
+        //            else
+        //            {
+        //                // Handle the error case
+        //                await DisplayAlert("Error", "Failed to delete Academic Record.", "OK");
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        // User cancelled the deletion
+        //        await DisplayAlert("Cancelled", "Deletion cancelled.", "OK");
+        //    }
+        //}
+
+
 
 
 
@@ -123,10 +185,10 @@ namespace FinalProject
             await Navigation.PushAsync(new AddAcademicHistoryPage(_selectedStudent));
         }
 
-        private async void OnUpdateAcademicHistory(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new UpdateAcademicHistoryPage());
-        }
+        //private async void OnUpdateAcademicHistory(object sender, EventArgs e)
+        //{
+        //    await Navigation.PushAsync(new UpdateAcademicHistoryPage(_selectedStudent, int academicHistoryId));
+        //}
 
 
 

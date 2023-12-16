@@ -35,7 +35,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Frame HasShadow="False" Grid.Row="0" Grid.Column="0" BorderColor="Green" CornerRadius="10" HeightRequest="250" WidthRequest="250" Padding="0" Margin="3,3,3,3">
+                <Frame x:Name="yearLevel1" HasShadow="False" Grid.Row="0" Grid.Column="0" BorderColor="Green" CornerRadius="10" HeightRequest="250" WidthRequest="250" Padding="0" Margin="3,3,3,3">
                     <StackLayout>
                         <Grid>
                             <Grid.RowDefinitions>
@@ -51,7 +51,7 @@
                     </Frame.GestureRecognizers>
                 </Frame>
 
-                <Frame HasShadow="False" Grid.Row="0" Grid.Column="1" BorderColor="#EFB524" CornerRadius="10" HeightRequest="250" WidthRequest="250" Padding="0" Margin="3,3,3,3">
+                <Frame x:Name="yearLevel2" HasShadow="False" Grid.Row="0" Grid.Column="1" BorderColor="#EFB524" CornerRadius="10" HeightRequest="250" WidthRequest="250" Padding="0" Margin="3,3,3,3">
                     <StackLayout>
                         <Grid>
                             <Grid.RowDefinitions>
@@ -67,7 +67,7 @@
                     </Frame.GestureRecognizers>
                 </Frame>
 
-                <Frame HasShadow="False" Grid.Row="1" Grid.Column="0" BorderColor="Red" CornerRadius="10" HeightRequest="250" WidthRequest="250" Padding="0" Margin="3,3,3,3">
+                <Frame x:Name="yearLevel3" HasShadow="False" Grid.Row="1" Grid.Column="0" BorderColor="Red" CornerRadius="10" HeightRequest="250" WidthRequest="250" Padding="0" Margin="3,3,3,3">
                     <StackLayout>
                         <Grid>
                             <Grid.RowDefinitions>
@@ -83,7 +83,7 @@
                     </Frame.GestureRecognizers>
                 </Frame>
 
-                <Frame HasShadow="False" Grid.Row="1" Grid.Column="1" BorderColor="Blue" CornerRadius="10" HeightRequest="250" WidthRequest="250" Padding="0" Margin="3,3,3,3">
+                <Frame x:Name="yearLevel4" HasShadow="False" Grid.Row="1" Grid.Column="1" BorderColor="Blue" CornerRadius="10" HeightRequest="250" WidthRequest="250" Padding="0" Margin="3,3,3,3">
                     <StackLayout>
                         <Grid>
                             <Grid.RowDefinitions>
@@ -99,6 +99,8 @@
                     </Frame.GestureRecognizers>
                 </Frame>
             </Grid>
+
+            <!--<Button Text="Add Student" Clicked="OnAddButtonClicked" BackgroundColor="Black" Margin="0,15,0,0" HorizontalOptions="CenterAndExpand" WidthRequest="250" CornerRadius="10" FontFamily="MontserratM" TextColor="White"/>-->
 
         </StackLayout>
     </ContentPage.Content>

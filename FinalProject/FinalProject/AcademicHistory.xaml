@@ -3,8 +3,9 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="FinalProject.AcademicHistory">
+
     <ContentPage.Content>
-        <Frame Margin="20" HeightRequest="1000" HasShadow="False" BorderColor="Black" CornerRadius="10">
+        <Frame Margin="20" HeightRequest="500" HasShadow="False" BorderColor="Black" CornerRadius="10">
             <StackLayout>
 
 
@@ -42,7 +43,8 @@
 
                
 
-               <Button Clicked="OnAddAcademicHistory" HorizontalOptions="Center" Text="Add Record"/>            
+               <Button CornerRadius="10" Margin="0,50,0,0" BackgroundColor="#B5F4D1" TextColor="#5AA572" FontFamily="MontserratM" Clicked="OnAddAcademicHistory" HorizontalOptions="Center" WidthRequest="150" Text="Add Record"/>
+               <Button CornerRadius="10" FontFamily="MontserratM" BackgroundColor="Black" TextColor="White" Clicked="OnRefreshAcademicHistory" Text="Refresh" WidthRequest="150" HorizontalOptions="Center"/>
               
               
             </StackLayout>

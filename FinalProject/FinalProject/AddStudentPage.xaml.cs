@@ -36,7 +36,6 @@ namespace FinalProject
         {
             if (string.IsNullOrWhiteSpace(nameEntry.Text) ||
                 string.IsNullOrWhiteSpace(sectionEntry.Text) ||
-                string.IsNullOrWhiteSpace(levelEntry.Text) ||
                 string.IsNullOrWhiteSpace(ageEntry.Text) ||
                 string.IsNullOrWhiteSpace(mobileNumEntry.Text) ||
                 string.IsNullOrWhiteSpace(emailEntry.Text))
@@ -45,11 +44,6 @@ namespace FinalProject
                 return;
             }
 
-            if (!int.TryParse(levelEntry.Text, out _))
-            {
-                await DisplayAlert("Error", "Level should be a numeric value 1-4.", "OK");
-                return;
-            }
 
             if (!int.TryParse(ageEntry.Text, out _))
             {
@@ -77,7 +71,7 @@ namespace FinalProject
                 {
                     name = nameEntry.Text,
                     section = sectionEntry.Text,
-                    level = levelEntry.Text,
+                    level = levelEntry.SelectedItem as string,
                     age = int.Parse(ageEntry.Text),
                     mobile_num = mobileNumEntry.Text,
                     email = emailEntry.Text
@@ -90,7 +84,6 @@ namespace FinalProject
                 if (response.IsSuccessStatusCode)
                 {
                     await DisplayAlert("Success", "Record added successfully!", "OK");
-                    // Optionally navigate back to the StudentRecordsPage after adding a record
                     await Navigation.PopAsync();
                 }
                 else

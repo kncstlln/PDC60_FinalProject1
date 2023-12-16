@@ -3,6 +3,12 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="FinalProject.AddAcademicHistoryPage">
+
+    <NavigationPage.TitleView>
+        <StackLayout>
+            <Label Text="Interstellar" FontFamily="MontserratBold" FontSize="26" TextColor="White"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
     <ContentPage.Content>
         <StackLayout>
 
@@ -12,18 +18,9 @@
                         <Label Text="Add Academic History" HorizontalOptions="Center" FontFamily="MontserratM" VerticalOptions="CenterAndExpand" FontSize="19"></Label>
                     </Frame>
 
-                    <!--<StackLayout Orientation="Horizontal" Margin="0,20,0,0">
-                        <Entry x:Name="studentIdEntry" WidthRequest="150"  Placeholder="Enter Name" Text="2" />
-                        <Entry x:Name="nameEntry" WidthRequest="150" Placeholder="Enter Name" Text="kane castillano" />
-                        <Entry x:Name="gpaEntry" WidthRequest="150" Placeholder="Enter GPA" Text="1" />
-                        <Entry x:Name="statusEntry" WidthRequest="150" Placeholder="Enter Status" Text="passed" />
-                        <Entry x:Name="yearEntry" WidthRequest="150" Placeholder="Enter Year" Text="2021" />
-                    </StackLayout>
-                        <Entry x:Name="remarksEntry" Placeholder="Enter Remarks" Text="Passed" />-->
-
                      <StackLayout Orientation="Horizontal" Margin="0,20,0,0">
-                        <Entry x:Name="studentIdEntry" WidthRequest="150"  Placeholder="Enter ID" Text="{Binding id}" />
-                        <Entry x:Name="nameEntry" WidthRequest="150" Placeholder="Enter Name" Text="{Binding name}" />
+                        <Entry IsReadOnly="True" x:Name="studentIdEntry" WidthRequest="150"  Placeholder="Enter ID" Text="{Binding id}" />
+                        <Entry IsReadOnly="True" x:Name="nameEntry" WidthRequest="150" Placeholder="Enter Name" Text="{Binding name}" />
                     </StackLayout>
                     <StackLayout Orientation="Horizontal">
                         <Entry x:Name="gpaEntry" WidthRequest="150" Placeholder="Enter GPA" />
